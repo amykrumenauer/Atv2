@@ -10,13 +10,17 @@ function Cadastro() {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [data, setData] = useState("");
+  const [erro, setErro] = useState("");
 
   const navigate = useNavigate();
 
   const cadastrar = async () => {
+    setErro("");
+
     try {
       const user = await createUserWithEmailAndPassword(auth, email, senha);
 
+      // 🗄️ salva no Firestore
       await setDoc(doc(db, "usuarios", user.user.uid), {
         uid: user.user.uid,
         email,
@@ -25,24 +29,59 @@ function Cadastro() {
         dataNascimento: data
       });
 
-      alert("Cadastro realizado!");
-      navigate("/");
+      navigate("/login");
+
     } catch (error) {
-      alert(error.message);
+      console.log("Erro:", error);
+
+      if (error.code === "auth/email-already-in-use") {
+        setErro("Esse e-mail já está cadastrado!");
+      } else {
+        setErro("Erro ao cadastrar usuário!");
+      }
     }
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Cadastro</h2>
 
-      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Senha" onChange={(e) => setSenha(e.target.value)} />
-      <input placeholder="Nome" onChange={(e) => setNome(e.target.value)} />
-      <input placeholder="Sobrenome" onChange={(e) => setSobrenome(e.target.value)} />
-      <input type="date" onChange={(e) => setData(e.target.value)} />
+      <input
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-      <button onClick={cadastrar}>Cadastrar</button>
+      <input
+        type="password"
+        placeholder="Senha"
+        value={senha}
+        onChange={(e) => setSenha(e.target.value)}
+      />
+
+      <input
+        placeholder="Nome"
+        value={nome}
+        onChange={(e) => setNome(e.target.value)}
+      />
+
+      <input
+        placeholder="Sobrenome"
+        value={sobrenome}
+        onChange={(e) => setSobrenome(e.target.value)}
+      />
+
+      <input
+        type="date"
+        value={data}
+        onChange={(e) => setData(e.target.value)}
+      />
+
+      <button onClick={cadastrar}>
+        Cadastrar
+      </button>
+
+      {erro && <p className="erro">{erro}</p>}
     </div>
   );
 }

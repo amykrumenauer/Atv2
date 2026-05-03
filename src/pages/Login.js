@@ -10,7 +10,7 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const login = async () => {
+  const logar = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, senha);
       navigate("/principal");
@@ -20,16 +20,19 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Login</h2>
 
       <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
       <input type="password" placeholder="Senha" onChange={(e) => setSenha(e.target.value)} />
 
-      <button onClick={login}>Acessar</button>
-      <button onClick={() => navigate("/cadastro")}>Cadastrar</button>
+      <button onClick={logar}>Acessar</button>
 
-      <p>{erro}</p>
+      {erro && <p className="erro">{erro}</p>}
+
+      <button onClick={() => navigate("/cadastro")}>
+        Ir para Cadastro
+      </button>
     </div>
   );
 }

@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# Sistema de Cadastro e Login com React e Firebase
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este projeto foi desenvolvido como atividade da disciplina de Desenvolvimento Web. A aplicação consiste em um sistema de cadastro, autenticação e exibição de dados do usuário utilizando React e Firebase.
 
-## Available Scripts
+## Tecnologias utilizadas
 
-In the project directory, you can run:
+- React
+- React Router DOM
+- Firebase Authentication
+- Firebase Firestore
+- JavaScript
+- CSS
 
-### `npm start`
+## Funcionalidades
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Cadastro
+- Cadastro de usuário com os seguintes campos:
+  - E-mail
+  - Senha
+  - Nome
+  - Sobrenome
+  - Data de nascimento
+- Criação de usuário utilizando Firebase Authentication (provedor e-mail/senha)
+- Armazenamento dos dados adicionais no Firebase Firestore
+- Associação dos dados com o UID do usuário
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Login
+- Autenticação com e-mail e senha
+- Validação dos dados no Firebase Authentication
+- Redirecionamento para a página principal após login bem-sucedido
+- Exibição de mensagem de erro em caso de falha
 
-### `npm test`
+### Página Principal
+- Exibição dos dados do usuário autenticado:
+  - Nome
+  - Sobrenome
+  - Data de nascimento
+- Dados recuperados do Firestore a partir do UID do usuário logado
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Estrutura de rotas
 
-### `npm run build`
+- `/` → Página de Login
+- `/login` → Página de Login
+- `/cadastro` → Página de Cadastro
+- `/principal` → Página Principal
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Como executar o projeto
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clonar o repositório:
+git clone https://github.com/amykrumenauer/Atv2.git
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Acessar a pasta do projeto:
+cd app-react-firebase
 
-### `npm run eject`
+3. Instalar as dependências:
+npm i
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. Executar o projeto:
+npm start
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Configuração do Firebase
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Acessar o Firebase Console
+2. Criar um novo projeto
+3. Ativar o Authentication com o provedor "E-mail/Senha"
+4. Criar um banco de dados no Firestore em modo de teste
+5. Copiar as credenciais do projeto e configurar no arquivo `firebase.js`
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Observações
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- O Firestore foi utilizado em modo de teste durante o desenvolvimento
+- Para ambientes de produção, é necessário configurar regras de segurança adequadas
+- É necessário possuir conexão com a internet para comunicação com o Firebase
 
-### Code Splitting
+## Deploy
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+A aplicação pode ser publicada utilizando serviços como:
+Firebase Hosting 
+https://atv2-dec88.web.app/
 
-### Analyzing the Bundle Size
+## Autor
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Desenvolvido por: Amanda Krumenauer
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
