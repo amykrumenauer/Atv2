@@ -20,22 +20,44 @@ function Cadastro() {
     setErro("");
     setSucesso("");
 
-    // VALIDAÇÕES
+    // ✅ CAMPOS OBRIGATÓRIOS
     if (!email || !senha || !nome || !sobrenome || !data) {
       setErro("Preencha todos os campos!");
       return;
     }
 
+    // SENHA
     if (senha.length < 6) {
       setErro("A senha deve ter pelo menos 6 caracteres!");
       return;
     }
 
+    // NOME E SOBRENOME (sem números)
+    const regex = /^[A-Za-zÀ-ÿ\s]+$/;
+
+    if (!regex.test(nome.trim())) {
+      setErro("Nome não pode conter números!");
+      return;
+    }
+
+    if (!regex.test(sobrenome.trim())) {
+      setErro("Sobrenome não pode conter números!");
+      return;
+    }
+
+    // DATA (não pode ser futura)
+    const hoje = new Date().toISOString().split("T")[0];
+
+    if (data > hoje) {
+      setErro("A data não pode ser futura!");
+      return;
+    }
+
     try {
-      // cria usuário no Auth
+      // Firebase Auth
       const user = await createUserWithEmailAndPassword(auth, email, senha);
 
-      // salva no Firestore
+      // Firestore
       await setDoc(doc(db, "usuarios", user.user.uid), {
         uid: user.user.uid,
         email,
@@ -44,10 +66,10 @@ function Cadastro() {
         dataNascimento: data
       });
 
-      // mensagem de sucesso
+      // ✅ SUCESSO
       setSucesso("Cadastro realizado com sucesso!");
 
-      // redireciona após 1.5s
+      // redireciona
       setTimeout(() => {
         navigate("/login");
       }, 1500);
@@ -60,17 +82,16 @@ function Cadastro() {
       setData("");
 
     } catch (error) {
-      console.log(error);
+      console.log("ERRO:", error);
 
-      // tratamento de erros do Firebase
       if (error.code === "auth/email-already-in-use") {
         setErro("Esse e-mail já está cadastrado!");
-      } else if (error.code === "auth/weak-password") {
-        setErro("A senha deve ter pelo menos 6 caracteres!");
       } else if (error.code === "auth/invalid-email") {
         setErro("E-mail inválido!");
+      } else if (error.code === "auth/weak-password") {
+        setErro("A senha deve ter pelo menos 6 caracteres!");
       } else {
-        setErro("Erro ao cadastrar. Tente novamente.");
+        setErro("Erro ao cadastrar usuário!");
       }
     }
   };
@@ -111,11 +132,11 @@ function Cadastro() {
         onChange={(e) => setData(e.target.value)}
       />
 
-      <button onClick={cadastrar}>Cadastrar</button>
-
       {/* mensagens */}
-      {sucesso && <p className="sucesso">{sucesso}</p>}
       {erro && <p className="erro">{erro}</p>}
+      {sucesso && <p className="sucesso">{sucesso}</p>}
+
+      <button onClick={cadastrar}>Cadastrar</button>
     </div>
   );
 }
